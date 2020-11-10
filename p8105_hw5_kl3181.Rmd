@@ -104,4 +104,20 @@ mutate/string operation to see if someone is in control or experimental group.
 
 Observations over time - week 1-8 and observations next to it. (pivot)
 
+Everything should be in one tibble. 
+
+
 ## Problem 3
+
+Simulations!!
+Sample from a normal distribution - sample size 30, std 5, change the mean (1 to 6) with 5000 datasets for each different mean. 
+
+Exporting results of hypothesis test to see if mean = 0. (t-test)
+
+See what happens as you move from 0 to 1 and conduct t-test along the way. Start with sim.mean and std function to export t-tests instead
+
+estimate, p-value
+
+plots:
+- filter(show results when p value is less than 0.5 and what does the mean look like)
+-  
