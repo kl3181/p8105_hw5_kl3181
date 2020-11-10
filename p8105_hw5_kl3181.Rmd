@@ -27,7 +27,7 @@ scale_fill_discrete = scale_fill_viridis_d
 Read in the data and clean.
 ```{r}
 homicide_df = 
-  read.csv("./data/homicide-data.csv") %>% 
+  read.csv("./homicide_data/homicide-data.csv") %>% 
   mutate(
     resolved = case_when(
       disposition == "Closed without arrest" ~ "unsolved",
@@ -81,3 +81,27 @@ results_df %>%
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
 
+## Problem 2
+
+Reading one dataset
+```{r}
+data_1 = read_csv("lda_data/con_01.csv")
+```
+
+```{r}
+path_df = 
+  tibble(
+    path = list.files("lda_data")
+  ) %>% 
+  mutate(
+    path = str_c("lda_data/", path),
+    data = map())
+
+read.csv(path_df$path[[1]])
+```
+
+mutate/string operation to see if someone is in control or experimental group. 
+
+Observations over time - week 1-8 and observations next to it. (pivot)
+
+## Problem 3
