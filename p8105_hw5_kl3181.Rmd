@@ -83,11 +83,7 @@ results_df %>%
 
 ## Problem 2
 
-Reading one dataset
-```{r}
-data_1 = read_csv("lda_data/con_01.csv")
-```
-
+Tidy the data!
 ```{r}
 path_df = 
   tibble(
@@ -95,16 +91,40 @@ path_df =
   ) %>% 
   mutate(
     path = str_c("lda_data/", path),
-    data = map())
+    data = map(path, read_csv)) %>% 
+  unnest(data) %>%
+  separate(path, into = c("folder", "arm"), sep = 9) %>%
+  separate(arm, into = c("arm", "subject_id"), sep = "_") %>% 
+  separate(subject_id, into = c("subject_id", "na"), sep = 2) %>% 
+  select(-folder, -na) %>% 
+  pivot_longer(
+    week_1:week_8,
+    names_to = "week", 
+    values_to = "observation",
+    names_prefix = "week_"
+  ) %>%
+  mutate(
+    subject_id = str_remove(subject_id, "^0+"),
+    week = as.numeric(week),
+    subject_id = as.numeric(subject_id)
+    )
 
-read.csv(path_df$path[[1]])
+path_df
 ```
 
-mutate/string operation to see if someone is in control or experimental group. 
-
-Observations over time - week 1-8 and observations next to it. (pivot)
-
-Everything should be in one tibble. 
+Making a spaghetti plot
+```{r}
+path_df %>% 
+  group_by(subject_id) %>% 
+  ggplot(aes(x = week, y = observation, color = arm)) +
+  geom_path() +
+  labs(
+    title = "Observations on each subject over time",
+    x = "Week", 
+    y = "Observation"
+  )
+```
+Observations appear to be more similar between the two treatment arms at the beginning of the study, and increase in range of observations as the weeks go by. The experimental group seems to have larger observations which increase over time while the control group seems to stay consistent with quite a bit of variation for each study subject. 
 
 
 ## Problem 3
